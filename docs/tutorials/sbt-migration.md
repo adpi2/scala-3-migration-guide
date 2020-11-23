@@ -332,7 +332,7 @@ scalacOptions ++= {
     "-encoding",
     "UTF-8",
     "-feature",
-    "-unchecked",
+    "-deprecation",
     "-language:implicitConversions"
     // "-Xfatal-warnings" will be added after the migration
   ) else Seq(
@@ -383,19 +383,19 @@ sbt:example> <module> / Test / compile
 >
 > To run the `main` and the `test` code, use the `<module> / Test / compile` task instead.
 
-The compiler produces different kind of diagnosis:
+The compiler produces different kinds of diagnostics:
 - Error: Some valid pieces of Scala 2.13 code cannot be compiled anymore.
 There are various reasons for those errors, that are given in the [Incompatibility Table](../incompatibilities/table.md).
 - Migration Warning: In migration mode, the Scala 3 compiler detects that a valid Scala 2.13 code is not valid anymore.
-It does however compile it, and it will even able to patch the code, when invoked with the `-rewrite` option.
+It does however compile it, and it can even automatically patch the code with the `-rewrite` option.
 - Warning: The Scala 3 compiler can emit more warnings than the Scala 2 compiler.
 
-For all kind of errors, except for macros, there exists a solution that cross-compiles in Scala 2.13 and Scala 3.0.
+For all kinds of errors, except for macros, there exists a solution that cross-compiles in Scala 2.13 and Scala 3.0.
 The [Incompatibility Table](../incompatibilities/table.md) will help you to fix them.
 
 > The macros errors can be silented by the `-Xignore-scala2-macros` option.
 
-After fixing an incompatibility, you are advise to go back to Scala 2.13 to validate the solution against the tests.
+After fixing an incompatibility, you are advised to go back to Scala 2.13 to validate the solution against the tests.
 
 ```shell
 sbt:example> ++2.13.3
@@ -408,7 +408,7 @@ sbt:example> <module> / test
 
 Consider committing your changes regularly.
 
-Once you got no more errors you can ask the compiler to patch the migration warnings.
+Once you get no more errors you can ask the compiler to patch the migration warnings.
 Add the `-rewrite` compiler option, and compile one more time:
 
 ```shell
@@ -430,11 +430,11 @@ sbt:example> <module> / Test / compile
 Scala 2 macros must be re-implemented in Scala 3.
 You can learn about the new Scala 3 metaprogramming features in the [Metaprogramming in Scala 3](../macros/metaprogramming.md) page.
 
-If you want to maintain the compatibility to Scala 2 you can follow the tutorial on [Porting a Macro Library](../macros/migration-tutorial.md).
+If you want to maintain the compatibility with Scala 2, you can follow the tutorial on [Porting a Macro Library](../macros/migration-tutorial.md).
 
-### 6.3 - Run Time
+### 6.3 - Run-Time Behavior
 
-On rare occasions, different implicit values could possibly be resolved and alter the runtime behavior of the program.
+On rare occasions, different implicit values could possibly be resolved, altering the run-time behavior of the program.
 Good tests are the only guarantee to prevent such bugs from going unnoticed.
 
 ## 7 - Finalize the migration
@@ -456,7 +456,7 @@ Congratulations! You have successfully ported a module to Scala 3.
 
 You can choose to keep the Scala 2.13 settings as a precaution, or you can remove the `crossScalaVersion` setting and the Scala 2.13 `scalacOptions`.
 
-Even if you drop the Scala 2.13 compilation in this module, others Scala 2.13 modules will still be able to depend on it by using the `-Ytasty-reader`.
+Even if you drop the Scala 2.13 compilation in this module, other Scala 2.13 modules will still be able to depend on it by using the `-Ytasty-reader`.
 
 > `-Ytasty-reader` is yet to be released in Scala `2.13.4`.
 > 
@@ -464,4 +464,4 @@ Even if you drop the Scala 2.13 compilation in this module, others Scala 2.13 mo
 > Stay tuned to [#77](https://github.com/scalacenter/scala-3-migration-guide/issues/77).
 
 Here ends our walk through the migration of a Scala module. 
-The process can be repeated for each modules, until the project is fully migrated to Scala 3.
+The process can be repeated for each module, until the project is fully migrated to Scala 3.
